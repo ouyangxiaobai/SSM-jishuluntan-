@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="jbbs_stop_ip" >
+
+  <select id="select" resultType="cc.javaee.bbs.model.StopIp" parameterType="cc.javaee.bbs.model.StopIp" >
+    SELECT 
+    t1.id, t1.startip, t1.endip, t1.type, t1.createtime, t1.createuserid, t1.isuse, t1.remarks,t2.loginname
+    FROM jbbs_stop_ip t1 LEFT JOIN jbbs_user t2 ON t1.createuserid=t2.id 
+    where 1=1
+    <if test="id != null" >
+     and  t1.id = #{id,jdbcType=INTEGER}
+    </if>
+    <if test="isuse != null" >
+     and  t1.isuse = #{isuse,jdbcType=VARCHAR}
+    </if>
+  </select>
+  
+   <select id="findpage" resultType="cc.javaee.bbs.model.StopIp" parameterType="cc.javaee.bbs.model.PageBean" >
+   SELECT 
+    t1.id, t1.startip, t1.endip, t1.type, t1.createtime, t1.createuserid, t1.isuse, t1.remarks,t2.loginname
+    FROM jbbs_stop_ip t1 LEFT JOIN jbbs_user t2 ON t1.createuserid=t2.id 
+    where 1=1
+    <if test="bean.id != null and bean.id !=''" >
+        and t1.id = #{bean.id,jdbcType=INTEGER}
+    </if>
+    ORDER BY t1.id desc
+    LIMIT ${pageNo}, ${pageSize}
+  </select>
+  
+  <select id="findpagecount" resultType="java.lang.Integer" parameterType="cc.javaee.bbs.model.PageBean" >
+    SELECT 
+	  COUNT(*) 
+	FROM jbbs_stop_ip t1 LEFT JOIN jbbs_user t2 ON t1.createuserid=t2.id 
+    where 1=1
+    <if test="bean.id != null and bean.id !=''" >
+        and t1.id = #{bean.id,jdbcType=INTEGER}
+    </if>
+  </select>
+  
+  
+  <delete id="delete" parameterType="java.lang.Integer" >
+    delete from jbbs_stop_ip
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="cc.javaee.bbs.model.StopIp" >
+    insert into jbbs_stop_ip
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="startip != null" >
+        startip,
+      </if>
+      <if test="endip != null" >
+        endip,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="createtime != null" >
+        createtime,
+      </if>
+      <if test="createuserid != null" >
+        createuserid,
+      </if>
+      <if test="isuse != null" >
+        isuse,
+      </if>
+      <if test="remarks != null" >
+        remarks,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="startip != null" >
+        #{startip,jdbcType=VARCHAR},
+      </if>
+      <if test="endip != null" >
+        #{endip,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=VARCHAR},
+      </if>
+      <if test="createuserid != null" >
+        #{createuserid,jdbcType=INTEGER},
+      </if>
+      <if test="isuse != null" >
+        #{isuse,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="update" parameterType="cc.javaee.bbs.model.StopIp" >
+    update jbbs_stop_ip
+    <set >
+      <if test="startip != null" >
+        startip = #{startip,jdbcType=VARCHAR},
+      </if>
+      <if test="endip != null" >
+        endip = #{endip,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        createtime = #{createtime,jdbcType=VARCHAR},
+      </if>
+      <if test="createuserid != null" >
+        createuserid = #{createuserid,jdbcType=INTEGER},
+      </if>
+      <if test="isuse != null" >
+        isuse = #{isuse,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        remarks = #{remarks,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

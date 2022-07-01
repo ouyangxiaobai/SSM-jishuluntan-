@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="jbbs_inner_link" >
+
+
+  <select id="select" resultType="cc.javaee.bbs.model.InnerLink" parameterType="cc.javaee.bbs.model.InnerLink" >
+    select 
+     	t1.id, t1.name, t1.innerlink, t1.type, t1.isuse, t1.createuserid, t1.createtime,t2.loginname
+    from jbbs_inner_link t1 left join jbbs_user t2 on t1.createuserid=t2.id
+    where 1=1 
+    <if test="id != null" >
+       and  t1.id=#{id,jdbcType=INTEGER}
+      </if>
+    <if test="isuse != null" >
+       and t1.isuse= #{isuse,jdbcType=VARCHAR}
+      </if>
+    <if test="type != null" >
+        and t1.type=#{type,jdbcType=VARCHAR}
+      </if>
+  </select>
+  
+  
+  <!-- 查询总条数 -->
+  <select id="findpagecount" resultType="java.lang.Integer" parameterType="cc.javaee.bbs.model.PageBean" >
+    select  count(*) 
+    from jbbs_inner_link t1 left join jbbs_user t2 on t1.createuserid=t2.id
+    where 1=1 
+    <if test="bean.id != null" >
+       and t1.id=#{bean.id,jdbcType=INTEGER}
+      </if>
+    <if test="bean.isuse != null" >
+       and t1.isuse=#{bean.isuse,jdbcType=VARCHAR}
+      </if>
+    <if test="bean.type != null" >
+     and t1.type= #{bean.type,jdbcType=VARCHAR}
+      </if>
+  </select>
+  
+  <!-- 分页查询 -->
+  <select id="findpage" resultType="cc.javaee.bbs.model.InnerLink" parameterType="cc.javaee.bbs.model.PageBean" >
+   select 
+     t1.id, t1.name, t1.innerlink, t1.type, t1.isuse, t1.createuserid, t1.createtime,t2.loginname
+    from jbbs_inner_link t1 left join jbbs_user t2 on t1.createuserid=t2.id
+    where 1=1 
+    <if test="bean.id != null" >
+       and t1.id=#{bean.id,jdbcType=INTEGER}
+      </if>
+    <if test="bean.isuse != null" >
+       and t1.isuse=#{bean.isuse,jdbcType=VARCHAR}
+      </if>
+    <if test="bean.type != null" >
+     and t1.type= #{bean.type,jdbcType=VARCHAR}
+      </if>
+     ORDER BY t1.createtime DESC
+    LIMIT ${pageNo}, ${pageSize}
+  </select>
+  <delete id="delete" parameterType="java.lang.Integer" >
+    delete from jbbs_inner_link
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="cc.javaee.bbs.model.InnerLink" >
+    insert into jbbs_inner_link
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="innerlink != null" >
+        innerlink,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="isuse != null" >
+        isuse,
+      </if>
+      <if test="createuserid != null" >
+        createuserid,
+      </if>
+      <if test="createtime != null" >
+        createtime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="innerlink != null" >
+        #{innerlink,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="isuse != null" >
+        #{isuse,jdbcType=VARCHAR},
+      </if>
+      <if test="createuserid != null" >
+        #{createuserid,jdbcType=INTEGER},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="update" parameterType="cc.javaee.bbs.model.InnerLink" >
+    update jbbs_inner_link
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="innerlink != null" >
+        innerlink = #{innerlink,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="isuse != null" >
+        isuse = #{isuse,jdbcType=VARCHAR},
+      </if>
+      <if test="createuserid != null" >
+        createuserid = #{createuserid,jdbcType=INTEGER},
+      </if>
+      <if test="createtime != null" >
+        createtime = #{createtime,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
